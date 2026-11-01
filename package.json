@@ -1,0 +1,31 @@
+{
+  "name": "lookout.nvim",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Checkpoint reviews and feedback for AHP agent sessions in Neovim",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "postinstall": "node scripts/patch-host.mjs",
+    "build": "node scripts/build.mjs",
+    "check": "tsc --noEmit",
+    "test": "npm run check && npm run build && node --test --test-isolation=none --test-force-exit tests/*.test.mjs",
+    "test:nvim": "npm run build && node --test --test-isolation=none --test-force-exit tests/nvim.test.mjs",
+    "host": "node scripts/host.mjs",
+    "smoke:live": "node scripts/live-smoke.mjs"
+  },
+  "devDependencies": {
+    "@agentclientprotocol/codex-acp": "2.5.0",
+    "@ahpd/agent-acp": "0.14.0",
+    "@ahpd/sdk": "0.14.0",
+    "@microsoft/agent-host-protocol": "1.0.0",
+    "@types/node": "24.10.0",
+    "esbuild": "0.25.12",
+    "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "ws": "8.18.3"
+  }
+}

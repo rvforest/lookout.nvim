@@ -1,0 +1,12 @@
+node_modules/
+.nvimlog
+.env
+.env.*
+!.env.example
+connection-token
+*.pem
+*.key
+*.sqlite
+*.sqlite-*
+*.db
+.lookout/
