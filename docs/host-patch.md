@@ -1,6 +1,6 @@
 # Local ahpd steering bridge
 
-`scripts/patch-host.mjs` is the isolated compatibility change. `npm ci` applies
+`scripts/patch-host.mjs` patches the pinned ahpd packages. `npm ci` applies
 it through postinstall; the host launcher checks it again. It validates exact
 package versions and all replacement contexts before changing installed files,
 and is idempotent. Do not update the pinned packages without reviewing it.
@@ -9,7 +9,7 @@ and is idempotent. Do not update the pinned packages without reviewing it.
 
 The published `@ahpd/agent-acp@0.14.0` backend has no `Session.steer` method.
 The Codex adapter supports `_session/steering`, but the host does not forward
-it. The original feasibility check reproduced the rejection:
+it. Without the patch, steering is rejected with:
 `This backend cannot take a message mid-turn`.
 
 ## Implementation
@@ -19,7 +19,7 @@ it. The original feasibility check reproduced the rejection:
    unconsumed rather than starting an adapter-owned turn.
 2. Add an asynchronous ACP session steering method. Check the initialize
    reply’s `_meta.steering.supported`, confirm the same turn remains active,
-   and accept only `injected`. The MVP supports text feedback only.
+   and accept only `injected`. Only text feedback is supported.
 3. Await boolean-or-reason delivery in ahpd’s chat action handler. Reject
    failures through the originating client’s AHP action envelope. Emit
    pending-message set/remove actions after confirmed adapter injection.

@@ -4,14 +4,17 @@ Follow a Codex session from Neovim, inspect changes when you’re ready, and sen
 feedback while the agent continues. Marking a file seen records its displayed
 content as your personal baseline; it does not commit or approve changes.
 
-The MVP includes native diff buffers, an activity timeline, per-file checkpoints,
+**Experimental:** the host needs a local patch, and live Codex use still needs
+testing on a machine with a writable Codex state directory.
+
+Lookout provides native diff buffers, an activity timeline, per-file checkpoints,
 persistent comments and drafts, and explicit feedback delivery. Neovim can run
 beside the repository or connect through an SSH port forward. No local checkout
 is needed, and the review client makes no model calls.
 
-The first host uses ahpd’s SDK and Codex ACP adapter with an isolated
-[steering patch](docs/host-patch.md). See [verification status](docs/feasibility.md)
-for the live Codex check that remains unverified in this managed environment.
+The host uses ahpd’s SDK and Codex ACP adapter with a
+[steering patch](docs/host-patch.md). See [testing status](docs/testing.md)
+for what has been tested and what still needs checking.
 
 ## Requirements and installation
 
@@ -136,7 +139,7 @@ ends during delivery, the input stays with you; it is not silently queued.
 it. Failed and uncertain submissions retain notes and text. Check the main
 conversation before explicitly resending uncertain feedback.
 
-## Persistence and MVP boundaries
+## State and limitations
 
 - Checkpoints, cached content, and unsent feedback are stored under
   `stdpath('state')/lookout`, separately for each host profile, session,
@@ -144,9 +147,9 @@ conversation before explicitly resending uncertain feedback.
   machine; laptop and server state are not synchronized. Use distinct profile
   names for distinct hosts.
 - Scope labels come from the host. Branch and uncommitted views can include
-  edits by you or other tools. The UI does not invent agent attribution or
-  semantic task grouping. Static changesets are supported; arbitrary
-  historical turn comparisons are deferred.
+  edits by you or other tools. Changes are shown by file and turn; Lookout
+  does not group them into tasks. Static changesets are supported; arbitrary
+  comparisons between past turns are not supported yet.
 - Snapshot capture retries concurrent edits. Consistency across files is
   best effort, not a transactional filesystem snapshot.
 - Text sides above 2 MiB are metadata-only and cannot be checkpointed. Binary
@@ -165,6 +168,6 @@ NVIM_BIN=/path/to/nvim npm test  # include the headless UI integration test
 npm run smoke:live              # opt-in real Codex task in a temporary repo
 ```
 
-The normal suite uses deterministic ACP processes and real AHP implementations,
-with no inference. The optional live smoke check uses your Codex authentication
+Tests use scripted agents and real AHP libraries without calling a model.
+The optional live smoke check uses your Codex authentication
 and subscription allowance; it removes its temporary repository afterward.

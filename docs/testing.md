@@ -1,10 +1,9 @@
-# Verification status
+# Testing status
 
-The initial host steering gate is resolved by a local compatibility patch,
-authorized after the blocker was reported. The Neovim plugin and Node helper
-are implemented.
+The Neovim plugin and Node helper are tested with a scripted agent. The host’s
+steering support is provided by a [local patch](host-patch.md).
 
-## Verified without inference
+## Automated tests
 
 - TypeScript checking and standalone helper bundling.
 - Actual ahpd SDK, ACP backend, and official AHP client initialization,
@@ -22,8 +21,8 @@ are implemented.
 
 ## Live Codex limitation here
 
-`codex login status` reports a ChatGPT login, but the real adapter exits before
-starting a turn because this environment’s `/home/agent/.codex` is read-only.
+During development, `codex login status` reported a ChatGPT login, but the adapter
+exited before starting a turn because the Codex state directory was read-only.
 Moving SQLite state alone does not resolve other required writes. Authentication
 files were not copied or changed, and API billing was not substituted.
 
