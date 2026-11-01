@@ -4,8 +4,12 @@ Follow a Codex session from Neovim, inspect changes when you’re ready, and sen
 feedback while the agent continues. Marking a file seen records its displayed
 content as your personal baseline; it does not commit or approve changes.
 
-**Experimental:** the host needs a local patch, and live Codex use still needs
-testing on a machine with a writable Codex state directory.
+**Experimental — the complete workflow with a live Codex agent has not yet been
+verified.** Automated tests cover the Neovim interface and AHP communication
+using a scripted agent. The live test could not start a Codex turn because the
+development environment’s Codex state directory was read-only. Passing CI does
+not yet establish that subscription login, steering, and session recovery work
+together with a real Codex agent. See [testing status](docs/testing.md).
 
 Lookout provides native diff buffers, an activity timeline, per-file checkpoints,
 persistent comments and drafts, and explicit feedback delivery. Neovim can run
@@ -13,8 +17,25 @@ beside the repository or connect through an SSH port forward. No local checkout
 is needed, and the review client makes no model calls.
 
 The host uses ahpd’s SDK and Codex ACP adapter with a
-[steering patch](docs/host-patch.md). See [testing status](docs/testing.md)
-for what has been tested and what still needs checking.
+[steering patch](docs/host-patch.md).
+
+## Before trying it
+
+- Start tasks through the included AHP host. Lookout cannot attach to an
+  ordinary `codex` process already running in a terminal.
+- Use a separate terminal AHP client to start tasks, select models, and handle
+  approvals. Lookout adds a review interface to that setup; it does not provide
+  the main agent conversation.
+- `npm ci` applies a local patch to the pinned ahpd dependencies. The patch is
+  not upstream yet, so changing those dependency versions requires checking it
+  again.
+- Tests run on Linux with Neovim 0.11.5 and Node.js 24. Laptop access through a
+  real SSH port forward and the separate terminal client have not been tested
+  together yet.
+
+This is an early implementation for trying out the review workflow. Expect
+bugs and changes to commands, configuration, and saved-state formats as it gets
+used on real tasks.
 
 ## Requirements and installation
 
@@ -141,6 +162,8 @@ conversation before explicitly resending uncertain feedback.
 
 ## State and limitations
 
+- One host, session, chat, and repository can be selected at a time. Switching
+  between them keeps separate review checkpoints.
 - Checkpoints, cached content, and unsent feedback are stored under
   `stdpath('state')/lookout`, separately for each host profile, session,
   chat, and changeset. They survive closing Neovim. They are local to each
