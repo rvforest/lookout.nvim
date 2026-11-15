@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Checkpoint reviews and feedback for AHP agent sessions in Neovim",
+  "license": "MIT",
   "engines": {
     "node": ">=24"
   },

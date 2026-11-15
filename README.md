@@ -194,3 +194,7 @@ npm run smoke:live              # opt-in real Codex task in a temporary repo
 Tests use scripted agents and real AHP libraries without calling a model.
 The optional live smoke check uses your Codex authentication
 and subscription allowance; it removes its temporary repository afterward.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
