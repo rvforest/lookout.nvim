@@ -18,13 +18,13 @@
     "smoke:live": "node scripts/live-smoke.mjs"
   },
   "devDependencies": {
-    "@agentclientprotocol/codex-acp": "2.5.0",
+    "@agentclientprotocol/codex-acp": "2.6.0",
     "@ahpd/agent-acp": "0.14.0",
     "@ahpd/sdk": "0.14.0",
-    "@microsoft/agent-host-protocol": "1.0.0",
-    "@types/node": "24.10.0",
-    "esbuild": "0.25.12",
-    "typescript": "5.9.3"
+    "@microsoft/agent-host-protocol": "1.1.0",
+    "@types/node": "26.6.6",
+    "esbuild": "0.28.2",
+    "typescript": "7.0.2"
   },
   "dependencies": {
     "ws": "8.23.0"
